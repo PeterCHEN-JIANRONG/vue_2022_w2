@@ -18,7 +18,7 @@ const app = createApp({
           this.getProducts();
         }).catch((err) => {
           alert(err.data.message);
-          window.location = 'index.html';
+          window.location = 'login.html';
         });
     },
     getProducts() {
