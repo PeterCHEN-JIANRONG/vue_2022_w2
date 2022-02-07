@@ -80,8 +80,7 @@
       <pagination :pagination="pagination" @get-products="getProducts"></pagination>
     </div>
     <!-- Components -->
-    <product-modal :temp-product="tempProduct" :is-new="isNew"
-    @get-products="getProducts"></product-modal>
+    <product-modal :temp-product="tempProduct" :is-new="isNew" @get-products="getProducts"></product-modal>
     <del-product-modal :temp-product="tempProduct" @get-products="getProducts"></del-product-modal>
     <!-- Components -->
   </div>
@@ -103,10 +102,16 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="mb-3">
-                  <div class="mb-1">
-                    <label for="imageUrl" class="form-label h3">主要圖片</label>
-                    <input v-model="tempProduct.imageUrl" id="imageUrl" type="text" class="form-control" placeholder="請輸入圖片連結">
-                  </div>
+                  <label for="imageUrl" class="form-label h3">主要圖片</label>
+                  <input v-model="tempProduct.imageUrl" id="imageUrl" type="text" class="form-control mb-2" placeholder="請輸入圖片連結">
+                  <label for="fileInput" class="form-label">
+                    或 上傳圖片
+                    <div class="spinner-border text-secondary spinner-border-sm" role="status"
+                    v-if="status.fileUploading">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </label>
+                  <input type="file" class="form-control mb-2" @change="upLoadImage" ref="fileInput" id="fileInput">
                   <img class="img-fluid" :src="tempProduct.imageUrl">
                 </div>
                 <h3 class="mb-3">多圖新增</h3>

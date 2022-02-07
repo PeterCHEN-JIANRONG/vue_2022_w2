@@ -77,6 +77,9 @@ app.component('productModal', {
     return {
       apiUrl: 'https://vue3-course-api.hexschool.io/v2',
       apiPath: 'peter_vue2022',
+      status: {
+        fileUploading: false,
+      },
     }
   },
   methods: {
@@ -98,6 +101,22 @@ app.component('productModal', {
           this.$emit('get-products');
         })
         .catch((err) => {
+          alert(err.data.message);
+        })
+    },
+    upLoadImage() {
+      this.status.fileUploading = true;
+      const url = `${this.apiUrl}/api/${this.apiPath}/admin/upload`;
+      const formData = new FormData();
+      formData.append('file-to-upload', this.$refs.fileInput.files[0]);
+
+      axios.post(url, formData)
+        .then(res => {
+          this.tempProduct.imageUrl = res.data.imageUrl;
+          this.$refs.fileInput.value = "";
+          this.status.fileUploading = false;
+        })
+        .catch(err => {
           alert(err.data.message);
         })
     },
