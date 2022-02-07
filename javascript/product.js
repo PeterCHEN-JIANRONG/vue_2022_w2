@@ -1,4 +1,5 @@
 import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue.esm-browser.min.js';
+import pagination from './components/Pagination.js';
 
 // modal元件
 let productModal = null;
@@ -10,11 +11,15 @@ const app = createApp({
       apiUrl: 'https://vue3-course-api.hexschool.io/v2',
       apiPath: 'peter_vue2022',
       products: [],
+      pagination: {},
       tempProduct: {
         imagesUrl: [],
       },
       isNew: true,
     }
+  },
+  components: {
+    pagination
   },
   mounted() {
     // 取出 Token
@@ -46,11 +51,12 @@ const app = createApp({
           window.location = 'login.html';
         });
     },
-    getProducts() {
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/products/all`;
+    getProducts(page = 1) {
+      const url = `${this.apiUrl}/api/${this.apiPath}/admin/products?page=${page}`;
       axios.get(url)
         .then((res) => {
           this.products = res.data.products;
+          this.pagination = res.data.pagination;
         }).catch((err) => {
           alert(err.data.message);
         })
