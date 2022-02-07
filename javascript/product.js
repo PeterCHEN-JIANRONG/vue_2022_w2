@@ -29,13 +29,6 @@ const app = createApp({
 
     // 登入驗證
     this.loginCheck();
-
-    // 創建modal元件
-
-    delProductModal = new bootstrap.Modal(this.$refs.delProductModal, {
-      backdrop: 'static',
-      keyboard: false
-    });
   },
   methods: {
     loginCheck() {
@@ -74,20 +67,6 @@ const app = createApp({
         delProductModal.show();
       }
     },
-    deleteProduct() {
-      // delete 刪除
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.tempProduct.id}`;
-
-      axios.delete(url)
-        .then((res) => {
-          alert(res.data.message);
-          delProductModal.hide();
-          this.getProducts();
-        }).catch((err) => {
-          alert(arr.data.message);
-        })
-    },
-
   },
 });
 
@@ -128,11 +107,46 @@ app.component('productModal', {
     }
   },
   mounted() {
+    // 創建modal元件
     productModal = new bootstrap.Modal(this.$refs.productModal, {
       backdrop: 'static',
       keyboard: false
     });
   },
-})
+});
+
+app.component('delProductModal', {
+  template: '#delProductModalTemplate',
+  props: ['tempProduct'],
+  data() {
+    return {
+      apiUrl: 'https://vue3-course-api.hexschool.io/v2',
+      apiPath: 'peter_vue2022',
+    }
+  },
+  methods: {
+    deleteProduct() {
+      // delete 刪除
+      const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.tempProduct.id}`;
+
+      axios.delete(url)
+        .then((res) => {
+          alert(res.data.message);
+          delProductModal.hide();
+          this.$emit('get-products');
+        }).catch((err) => {
+          alert(arr.data.message);
+        })
+    },
+  },
+  mounted() {
+    // 創建modal元件
+    delProductModal = new bootstrap.Modal(this.$refs.delProductModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
+  },
+});
+
 
 app.mount('#app');
