@@ -31,10 +31,7 @@ const app = createApp({
     this.loginCheck();
 
     // 創建modal元件
-    productModal = new bootstrap.Modal(this.$refs.productModal, {
-      backdrop: 'static',
-      keyboard: false
-    });
+
     delProductModal = new bootstrap.Modal(this.$refs.delProductModal, {
       backdrop: 'static',
       keyboard: false
@@ -77,6 +74,33 @@ const app = createApp({
         delProductModal.show();
       }
     },
+    deleteProduct() {
+      // delete 刪除
+      const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.tempProduct.id}`;
+
+      axios.delete(url)
+        .then((res) => {
+          alert(res.data.message);
+          delProductModal.hide();
+          this.getProducts();
+        }).catch((err) => {
+          alert(arr.data.message);
+        })
+    },
+
+  },
+});
+
+app.component('productModal', {
+  template: '#productModalTemplate',
+  props: ['tempProduct', 'isNew'],
+  data() {
+    return {
+      apiUrl: 'https://vue3-course-api.hexschool.io/v2',
+      apiPath: 'peter_vue2022',
+    }
+  },
+  methods: {
     updateProduct() {
       // create 新增
       let url = `${this.apiUrl}/api/${this.apiPath}/admin/product`;
@@ -92,23 +116,10 @@ const app = createApp({
         .then((res) => {
           alert(res.data.message);
           productModal.hide();
-          this.getProducts();
+          this.$emit('get-products');
         })
         .catch((err) => {
           alert(err.data.message);
-        })
-    },
-    deleteProduct() {
-      // delete 刪除
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.tempProduct.id}`;
-
-      axios.delete(url)
-        .then((res) => {
-          alert(res.data.message);
-          delProductModal.hide();
-          this.getProducts();
-        }).catch((err) => {
-          alert(arr.data.message);
         })
     },
     setImagesUrlToArray() {
@@ -116,6 +127,12 @@ const app = createApp({
       this.tempProduct.imagesUrl.push('');
     }
   },
-});
+  mounted() {
+    productModal = new bootstrap.Modal(this.$refs.productModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
+  },
+})
 
 app.mount('#app');
