@@ -4,12 +4,12 @@ import pagination from './components/Pagination.js';
 // modal元件
 let productModal = null;
 let delProductModal = null;
+const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
+const apiPath = 'peter_vue2022';
 
 const app = createApp({
   data() {
     return {
-      apiUrl: 'https://vue3-course-api.hexschool.io/v2',
-      apiPath: 'peter_vue2022',
       products: [],
       pagination: {},
       tempProduct: {
@@ -32,7 +32,7 @@ const app = createApp({
   },
   methods: {
     loginCheck() {
-      const url = `${this.apiUrl}/api/user/check`;
+      const url = `${apiUrl}/api/user/check`;
       axios.post(url)
         .then(() => {
           this.getProducts();
@@ -42,7 +42,7 @@ const app = createApp({
         });
     },
     getProducts(page = 1) {
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/products?page=${page}`;
+      const url = `${apiUrl}/api/${apiPath}/admin/products?page=${page}`;
       axios.get(url)
         .then((res) => {
           this.products = res.data.products;
@@ -75,8 +75,6 @@ app.component('productModal', {
   props: ['tempProduct', 'isNew'],
   data() {
     return {
-      apiUrl: 'https://vue3-course-api.hexschool.io/v2',
-      apiPath: 'peter_vue2022',
       status: {
         fileUploading: false,
       },
@@ -85,12 +83,12 @@ app.component('productModal', {
   methods: {
     updateProduct() {
       // create 新增
-      let url = `${this.apiUrl}/api/${this.apiPath}/admin/product`;
+      let url = `${apiUrl}/api/${apiPath}/admin/product`;
       let httpMethod = 'post';
 
       // update 修改
       if (!this.isNew) {
-        url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.tempProduct.id}`;
+        url = `${apiUrl}/api/${apiPath}/admin/product/${this.tempProduct.id}`;
         httpMethod = 'put';
       }
 
@@ -106,7 +104,7 @@ app.component('productModal', {
     },
     upLoadImage() {
       this.status.fileUploading = true;
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/upload`;
+      const url = `${apiUrl}/api/${apiPath}/admin/upload`;
       const formData = new FormData();
       formData.append('file-to-upload', this.$refs.fileInput.files[0]);
 
@@ -137,16 +135,10 @@ app.component('productModal', {
 app.component('delProductModal', {
   template: '#delProductModalTemplate',
   props: ['tempProduct'],
-  data() {
-    return {
-      apiUrl: 'https://vue3-course-api.hexschool.io/v2',
-      apiPath: 'peter_vue2022',
-    }
-  },
   methods: {
     deleteProduct() {
       // delete 刪除
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${this.tempProduct.id}`;
+      const url = `${apiUrl}/api/${apiPath}/admin/product/${this.tempProduct.id}`;
 
       axios.delete(url)
         .then((res) => {
