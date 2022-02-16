@@ -14,6 +14,7 @@ const app = createApp({
       pagination: {},
       tempProduct: {
         imagesUrl: [],
+        is_enabled: 1,
       },
       isNew: true,
     }
@@ -56,6 +57,7 @@ const app = createApp({
         this.isNew = true;
         this.tempProduct = {
           imagesUrl: [],
+          is_enabled: 1,
         };
         productModal.show();
       } else if (state === 'update') {
