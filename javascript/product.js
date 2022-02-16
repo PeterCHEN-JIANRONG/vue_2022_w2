@@ -94,7 +94,7 @@ app.component('productModal', {
 
       axios[httpMethod](url, { data: this.tempProduct })
         .then((res) => {
-          alert(res.data.message);
+          // alert(res.data.message);
           productModal.hide();
           this.$emit('get-products');
         })
