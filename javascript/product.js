@@ -142,7 +142,7 @@ app.component('delProductModal', {
 
       axios.delete(url)
         .then((res) => {
-          alert(res.data.message);
+          // alert(res.data.message);
           delProductModal.hide();
           this.$emit('get-products');
         }).catch((err) => {
