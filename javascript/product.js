@@ -126,8 +126,8 @@ app.component('productModal', {
   mounted() {
     // 創建modal元件
     productModal = new bootstrap.Modal(this.$refs.productModal, {
-      backdrop: 'static',
-      keyboard: false
+      // backdrop: 'static',
+      // keyboard: false
     });
   },
 });
@@ -153,8 +153,8 @@ app.component('delProductModal', {
   mounted() {
     // 創建modal元件
     delProductModal = new bootstrap.Modal(this.$refs.delProductModal, {
-      backdrop: 'static',
-      keyboard: false
+      // backdrop: 'static',
+      // keyboard: false
     });
   },
 });
